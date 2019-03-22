@@ -8,28 +8,38 @@ module.exports = {
     },
     module:{
         rules: [
+                {
+                test: /\.jpeg$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        // placeloader
+                        name:'[name].[hash].[ext]',
+                        outputPath:"images/"
+                    }
+                }
+            },
             {
-            test: /\.jpeg$/,
-            use: {
-                loader: 'file-loader',
-                options: {
-                    // placeloader
-                    name:'[name].[hash].[ext]',
-                    outputPath:"images/"
+                test: /\.(jpg|png|gif)$/,
+                use:{
+                    loader: 'url-loader',
+                    options: {
+                        name: '[name].[hash].[ext]',
+                        outputPath: "images/",
+                        limit: 10240
+                    }
                 }
+            },
+            {
+                test: /\.scss$/,
+                use: ['style-loader',{
+                    loader: 'css-loader',
+                    options:{
+                        importLoaders: 2,
+                        modules: false
+                    }
+                },'sass-loader','postcss-loader']
             }
-        },
-        {
-            test: /\.(jpg|png|gif)$/,
-            use:{
-                loader: 'url-loader',
-                options: {
-                    name: '[name].[hash].[ext]',
-                    outputPath: "images/",
-                    limit: 10240
-                }
-            }
-        }
-    ]
+        ]
     }
 }
